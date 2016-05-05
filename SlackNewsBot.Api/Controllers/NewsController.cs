@@ -1,21 +1,52 @@
 using Microsoft.AspNet.Mvc;
 using SlackNewsBot.Models;
+using SlackNewsBot.Services;
+using System.Threading.Tasks;
 
 namespace SlackNewsBot.Controllers
 {
     [Route("api/[controller]")]
     public class NewsController : Controller
     {
-        [HttpPost]
-        public IActionResult Post([FromForm] SlackRequestBody requestBody)
+        private readonly INewsFetcher _newsFetcher;
+
+        public NewsController(INewsFetcher newsFetcher)
         {
-            return Ok(GenerateResponse(requestBody));
+            _newsFetcher = newsFetcher;
         }
 
-        private static string GenerateResponse(SlackRequestBody requestBody)
+        [HttpPost]
+        public async Task<IActionResult> Post([FromForm] SlackRequestBody requestBody)
         {
-            return string.Format("Hi, {0}! Thanks for passing in '{1}'. (I have no idea what to do with it)",
-                requestBody.User_Name, requestBody.Text);
+            var numberOfItems = GetRequestedNumberOfItems(requestBody);
+
+            return Ok(await GenerateResponseAsync(numberOfItems));
+        }
+
+        private static int GetRequestedNumberOfItems(SlackRequestBody requestBody)
+        {
+            int numberOfItems;
+
+            if (int.TryParse(requestBody.Text, out numberOfItems))
+            {
+                numberOfItems = numberOfItems < 1 ? 1 : numberOfItems;
+                numberOfItems = numberOfItems > 10 ? 10 : numberOfItems;
+            }
+            else
+            {
+                numberOfItems = 3;
+            }
+
+            return numberOfItems;
+        }
+
+        private async Task<SlackResponse> GenerateResponseAsync(int numberOfItems)
+        {
+            return new SlackResponse
+            {
+                Text = string.Format("{0} siste nyheter fra aftenposten.no", numberOfItems),
+                Attachments = await _newsFetcher.GetNewsAsync(numberOfItems)
+            };
         }
     }
 }
