@@ -1,7 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNet.Mvc;
 
 namespace SlackNewsBot.Controllers
@@ -9,7 +6,6 @@ namespace SlackNewsBot.Controllers
     [Route("api/[controller]")]
     public class TestController : Controller
     {
-        // GET: api/values
         [HttpGet]
         public IEnumerable<string> Get()
         {
