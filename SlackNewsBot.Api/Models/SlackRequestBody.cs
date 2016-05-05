@@ -1,34 +1,25 @@
-using Newtonsoft.Json;
-
 namespace SlackNewsBot.Models
 {
     public class SlackRequestBody
     {
         public string Token { get; set; }
-        
-        [JsonProperty("team_id")]
-        public string TeamId { get; set; }
-        
-        [JsonProperty("team_domain")]
-        public string TeamDomain { get; set; }
-        
-        [JsonProperty("channel_id")]
-        public string ChannelId { get; set; }
-        
-        [JsonProperty("channel_name")]
-        public string ChannelName { get; set; }
-        
-        [JsonProperty("user_id")]
-        public string UserId { get; set; }
-        
-        [JsonProperty("user_name")]
-        public string UserName { get; set; }
-        
+
+        public string Team_Id { get; set; }
+
+        public string Team_Domain { get; set; }
+
+        public string Channel_Id { get; set; }
+
+        public string Channel_Name { get; set; }
+
+        public string User_Id { get; set; }
+
+        public string User_Name { get; set; }
+
         public string Command { get; set; }
-        
+
         public string Text { get; set; }
-        
-        [JsonProperty("response_url")]
-        public string ResponseUrl { get; set; }
+
+        public string Response_Url { get; set; }
     }
 }

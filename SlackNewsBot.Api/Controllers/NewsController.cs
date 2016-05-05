@@ -7,9 +7,15 @@ namespace SlackNewsBot.Controllers
     public class NewsController : Controller
     {
         [HttpPost]
-        public IActionResult Post([FromBody] SlackRequestBody requestBody)
+        public IActionResult Post([FromForm] SlackRequestBody requestBody)
         {
-            return Ok(requestBody.UserName);
+            return Ok(GenerateResponse(requestBody));
+        }
+
+        private static string GenerateResponse(SlackRequestBody requestBody)
+        {
+            return string.Format("Hi, {0}! Thanks for passing in '{1}'. (I have no idea what to do with it)",
+                requestBody.User_Name, requestBody.Text);
         }
     }
 }

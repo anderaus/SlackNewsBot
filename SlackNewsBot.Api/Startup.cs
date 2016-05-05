@@ -39,7 +39,7 @@ namespace SlackNewsBot
 
             app.UseIISPlatformHandler();
 
-            app.UseStaticFiles();
+            //app.UseStaticFiles();
 
             app.UseMvc();
         }
