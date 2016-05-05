@@ -18,12 +18,12 @@ namespace SlackNewsBot.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromForm] SlackRequestBody requestBody)
         {
-            var numberOfItems = GetRequestedNumberOfItems(requestBody);
+            var numberOfItems = ExtractRequestedNumberOfItems(requestBody);
 
             return Ok(await GenerateResponseAsync(numberOfItems));
         }
 
-        private static int GetRequestedNumberOfItems(SlackRequestBody requestBody)
+        private static int ExtractRequestedNumberOfItems(SlackRequestBody requestBody)
         {
             int numberOfItems;
 
